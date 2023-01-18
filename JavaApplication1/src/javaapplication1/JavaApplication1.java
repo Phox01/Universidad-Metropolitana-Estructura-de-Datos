@@ -13,7 +13,14 @@ public class JavaApplication1 {
         Scanner sc= new Scanner(System.in);
         System.out.print("Please enter a number:");
         int number= sc.nextInt();
-        
+        Funciones funct= new Funciones();
+        boolean isPrime= funct.calculatePrimes(number);
+        if (isPrime){
+            System.out.println("The number " +number+" is prime");
+        }
+        else {
+            System.out.println("The number " +number+" is not prime");
+        }
     }
     
 }

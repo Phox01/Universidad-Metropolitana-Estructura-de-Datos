@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package funciones;
+package javaapplication1;
 
 /**
  *
@@ -11,12 +11,12 @@ package funciones;
  */
 public class Funciones {
 
-    /**
-     * @param args the command line arguments
-     */
     private int tablero;
     
-    public Funciones(int tableto){
+    public Funciones(){
+    }
+
+    public Funciones(int tablero) {
         this.tablero=tablero;
     }
     
