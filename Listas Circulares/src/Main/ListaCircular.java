@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package prepa2;
+package Main;
 
 /**
  *
  * @author <Joseph Ruiz EDD Unimet>
  */
-public class Lista {
-
+public class ListaCircular {
     private Nodo First;
+    private Nodo Tail;
     private int size;
 
-    public Lista() {
+    public ListaCircular() {
         this.First = null;
         this.size = 0;
     }
@@ -40,16 +40,17 @@ public class Lista {
     /**
      * @return the pLast
      */
-//    public Nodo getLast() {
-//        return Last;
-//    }
-//
-//    /**
-//     * @param pLast the Last to set
-//     */
-//    public void setLast(Nodo Last) {
-//        this.Last = Last;
-//    }
+    public Nodo getTail() {
+        return Tail;
+    }
+
+    /**
+     * @param pLast the Last to set
+     */
+    public void setTail(Nodo Tail) {
+        this.Tail = Tail;
+    }
+
     /**
      * @return the size
      */
@@ -67,11 +68,16 @@ public class Lista {
     public Nodo EliminarInicio() {
 
         if (!isEmpty()) {
-            Nodo pointer = getFirst();
-            setFirst(pointer.getNext());
-            pointer.setNext(null);
-            size = size - 1;
-            return pointer;
+            if (getSize() == 1) {
+                setTail(null);
+                size--;
+            } else {
+                Nodo pointer = getFirst();
+                setFirst(pointer.getNext());
+                pointer.setNext(null);
+                size = size - 1;
+                return pointer;
+            }
         }
         return null;
     }
@@ -140,15 +146,19 @@ public class Lista {
         Nodo nuevo = new Nodo(data);
         if (isEmpty()) {
             setFirst(nuevo);
-//            setLast(nuevo);
+            setTail(nuevo);
         } else {
 
-            Nodo pointer = getFirst();
-            while (pointer.getNext() != null) {
-                pointer = pointer.getNext();
-            }
+            Nodo pointer = getTail();
             pointer.setNext(nuevo);
-//            setLast(nuevo);
+            nuevo.setPrevious(pointer);
+
+//            while(pointer.getNext()!=null){
+//                pointer=pointer.getNext();
+//            }
+//            pointer.setNext(nuevo);
+            setTail(nuevo);
+            
         }
         size++;
         return nuevo;
@@ -160,10 +170,17 @@ public class Lista {
         if (isEmpty()) {
 
             setFirst(node);
+            setTail(node);
         } else {
-
+            getFirst().setPrevious(node);
             node.setNext(getFirst());
             setFirst(node);
+            Nodo pointer = getFirst();
+            while (pointer != getFirst()) {
+                pointer.getNext();
+
+            }
+            setTail(pointer);
 
         }
         size++;
@@ -175,20 +192,34 @@ public class Lista {
         if (isEmpty()) {
 
             setFirst(node);
+            setTail(node);
         } else {
             if (index > getSize()) {
 
                 System.out.println("The index is bigger than the size");
-                //return InsertFinal(data);
             } else {
-                Nodo pointer = getFirst();
+
+                Nodo pointer = getTail();
                 int cont = 0;
-                while (cont < index && pointer.getNext() != null) {
-                    pointer = pointer.getNext();
-                    cont++;
+                if (index > getSize() / 2) {
+                    while (cont < (getSize() - index) && pointer.getPrevious() != null) {
+                        pointer = pointer.getPrevious();
+                        cont++;
+                    }
+                    node.setNext(pointer.getNext());
+                    pointer.getNext().setPrevious(node);
+                    node.setPrevious(pointer);
+                    pointer.setNext(node);
+
+                } else {
+                    while (cont < index && pointer.getNext() != null) {
+                        pointer = pointer.getNext();
+                        cont++;
+
+                    }
+                    node.setNext(pointer.getNext());
+                    pointer.setNext(node);
                 }
-                node.setNext(pointer.getNext());
-                pointer.setNext(node);
 
             }
             size++;
@@ -198,16 +229,6 @@ public class Lista {
 
     }
 
-//    public Object GettingLast() {
-//
-//        if (!isEmpty()) {
-//
-//            Nodo aux = getLast();
-//            Object value = aux.getDato();
-//            return value;
-//        }
-//        return false;
-//    }
     public void reverseprint(Nodo current) {
         if (!isEmpty()) {
             if (current.getNext() == null) {
@@ -232,28 +253,7 @@ public class Lista {
             System.out.println(" ");
 
         } else {
-            System.out.println("Lista vacía");
+            System.out.println("ListaCircular vacía");
         }
     }
-
-    public Nodo deleteObject(Object number) {
-        if (isEmpty()) {
-            return null;
-        } else {
-            int cont = 0;
-            Nodo pointer = getFirst();
-            while (pointer.getNext() != null) {
-                if (pointer.getNext().getDato() == number) {
-                    deleteInIndex(cont+1);
-                }
-                pointer = pointer.getNext();
-
-                cont++;
-
-            }
-            return pointer;
-
-        }
-    }
-
 }

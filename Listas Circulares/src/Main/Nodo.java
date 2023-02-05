@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package prepa2;
+package Main;
 
 /**
  *
@@ -12,10 +12,13 @@ package prepa2;
 public class Nodo {
     private Object dato;
     private Nodo next;
+    private Nodo previous;
+    
 
     public Nodo(Object dato) {
         this.dato = dato;
-        this.next = next;
+        this.next = null;
+        this.previous=null;
     }
 
     /**
@@ -45,5 +48,18 @@ public class Nodo {
     public void setNext(Nodo next) {
         this.next = next;
     }
-    
+
+    /**
+     * @return the previous
+     */
+    public Nodo getPrevious() {
+        return previous;
+    }
+
+    /**
+     * @param previous the previous to set
+     */
+    public void setPrevious(Nodo previous) {
+        this.previous = previous;
+    }
 }
